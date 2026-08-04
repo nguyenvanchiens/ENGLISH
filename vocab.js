@@ -521,7 +521,7 @@ const V_CLOSED = [
   { w:'22 · 26', what:'tuần ôn — không có từ mới',        goto:''          },
 ];
 
-/* Cách dựng thẻ Anki — một chiều, giữ hàng đợi ở ~70 thẻ/ngày */
+/* Cách dựng thẻ Anki — một chiều, giữ hàng đợi ở ~78 thẻ/ngày */
 const CARD_DEMO = {
   front:['deadline','/ˈdedlaɪn/ 🔊'],
   back:['hạn cuối','The deadline is Friday at five.','Hạn cuối là thứ Sáu, 5 giờ.'],
@@ -529,6 +529,28 @@ const CARD_DEMO = {
     'Một chiều duy nhất: từ → nghĩa. Không làm thẻ chiều ngược — 2 chiều là 140 thẻ/ngày, đúng cái bẫy bạn đã tránh khi hạ từ 15 xuống 10 từ.',
     'Bắt buộc có audio và IPA. Từ mà bạn không phát âm được thì khi nghe bạn cũng không nhận ra.',
     'Câu ví dụ phải ở mức A2: từ mới thì được, phần còn lại của câu phải là thứ bạn đọc trôi. Mọi câu trên trang này đã viết theo đúng luật đó — copy được thẳng vào thẻ.',
+    '7 trong 10 từ mỗi ngày lấy theo TẦN SUẤT (Oxford 3000, lọc dải B1 + B2), chỉ 3 từ lấy theo chủ đề tuần. Cả khoá chỉ có 1.200 từ mới để đắp một khoảng trống 2.200 từ — độ phủ phải đi trước sở thích.',
     'Anki chỉ lo phần NHẬN BIẾT. Phần dùng được nằm ở chỗ khác: nói to 5 câu mỗi ngày, đoạn 80 từ mỗi T7, 15 phút AI voice.',
+  ]
+};
+
+/* =========================================================
+   THẺ CLOZE NGỮ PHÁP — 5 thẻ mỗi thứ Bảy, làm từ chính câu bạn viết sai.
+
+   Vì sao phải có: từ vựng có Anki lo việc chống quên, ngữ pháp thì không.
+   Một chủ điểm học ngày X được ôn thứ Bảy, kiểm tra cuối tháng, rồi không
+   được chạm lại cho tới tuần 22 — bốn tháng cho mạo từ của tháng 1.
+   5 thẻ/tuần đưa hàng đợi từ ~70 lên ~78 thẻ/ngày, vẫn nằm gọn trong 15'.
+   Nếu làm 3 thẻ MỖI NGÀY thì thành ~105 thẻ và bạn sẽ bỏ Anki — cùng đúng
+   cái bẫy đã tránh khi hạ từ 15 từ mới xuống 10.
+   ========================================================= */
+const CLOZE_DEMO = {
+  front:['I am {{c1::a}} developer.','← câu SAI của chính bạn, đã sửa'],
+  back:['a','Nghề nghiệp luôn có a / an.','Sai ngày 30.07 · tuần 1'],
+  rules:[
+    'Nguyên liệu là câu SAI của bạn trong tuần, không phải câu mẫu trong sách. Thẻ chỉ đáng làm khi nó bắt đúng lỗi bạn thật sự mắc.',
+    'Khoét đúng MỘT chỗ — chỗ bạn đã sai. Khoét hai chỗ thì thành câu đố, không còn là phản xạ.',
+    'Mặt sau ghi thêm một dòng luật ngắn và tuần đã học. Ba tháng sau bạn sẽ cần dòng đó.',
+    'Đúng 5 thẻ mỗi thứ Bảy. Tuần nào sai ít hơn 5 câu thì lấy thêm từ sổ lỗi — sổ lỗi và Anki là hai đầu của cùng một việc.',
   ]
 };

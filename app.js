@@ -9,7 +9,7 @@ const Store = {
   del(k){ localStorage.removeItem(k); }
 };
 const K = { days:'en.days', start:'en.start', theme:'en.theme', topics:'en.topics',
-            vocab:'en.vocab' };
+            vocab:'en.vocab', extra:'en.extra', redo:'en.redo' };
 
 /* ---------- Chuẩn hoá chuỗi để tìm kiếm ----------
    1. Bỏ dấu tiếng Việt  → "hạn cuối" tìm được bằng "han cuoi"
@@ -116,10 +116,43 @@ function setDay(n, val){
 }
 function countDone(){ return Object.keys(doneDays()).length; }
 
+/* ---------- Học lại một tháng ----------
+   Luật ở trang Ôn tập: dưới 60% thì học lại cả tháng đó. Muốn làm được việc
+   ấy thì phải bỏ tích 28 ngày — và số NGÀY phải lùi thật, vì bạn thật sự còn
+   28 ngày phải học. Nhưng số GIỜ thì không được mất: bạn đã ngồi học 42 giờ
+   đó rồi, xoá nó đi thì lần sau bạn sẽ không dám bấm nút này nữa.
+   Ngân hàng giờ giữ lại đúng phần công sức đã bỏ ra. */
+const extraMin = () => Store.get(K.extra, 0);
+const redoLog  = () => Store.get(K.redo, []);
+
+function redoMonth(monthNo){
+  const done = doneDays();
+  let banked = 0, cleared = 0;
+  WEEKS.forEach((w, wi) => {
+    if (w.m !== monthNo) return;
+    buildWeek(w).forEach((_, di) => {
+      const n = dayNo(wi, di);
+      if (!done[n]) return;
+      banked += minutesOfDay(n); cleared++; delete done[n];
+    });
+  });
+  if (!cleared) return 0;
+  Store.set(K.days, done);
+  Store.set(K.extra, extraMin() + banked);
+  Store.set(K.redo, redoLog().concat([{ m: monthNo, days: cleared, on: today() }]));
+  return cleared;
+}
+
 /* =========================================================
    BÀI TẬP TỰ CHẤM — dùng chung cho trang Bài học và Ôn tập
-   Dữ liệu: { title, options:[...], items:[[câu, đáp án, giải thích], ...] }
+   Dữ liệu: { title, options:[...], items:[[câu, đáp án, giải thích, options?], ...] }
    Câu hỏi dùng ___ làm chỗ điền.
+
+   options ở cấp bài dùng cho bài một chủ điểm — 20 lựa chọn chung là hợp lý.
+   options ở cấp CÂU dùng cho bài kiểm tra tháng: một bài 50 câu trải 4 chủ
+   điểm mà dồn chung thì danh sách thành 60 mục, và việc tìm trong 60 mục
+   đo trí nhớ thị giác chứ không đo ngữ pháp. Câu nào có options riêng thì
+   dùng options riêng, không có thì rơi về options của bài.
    ========================================================= */
 const Quiz = {
   mountAll(map, sel='.quiz'){
@@ -136,7 +169,7 @@ const Quiz = {
         <li data-i="${i}">
           <span class="qq">${it[0].replace('___',
             `<select data-i="${i}"><option value="">— chọn —</option>${
-              (q.options||[]).map(o=>`<option>${o}</option>`).join('')}</select>`)}</span>
+              (it[3] || q.options || []).map(o=>`<option>${o}</option>`).join('')}</select>`)}</span>
           <span class="qf"></span>
         </li>`).join('')}</ol>
       <div class="quiz-a">
@@ -183,6 +216,30 @@ const Quiz = {
   }
 };
 
+/* =========================================================
+   KẾT LUẬN SAU BÀI KIỂM TRA MỐC — chung cho cả 6 bài.
+   Cùng một thang điểm cho cả 6 lần thì điểm tháng 1 mới so được với
+   tháng 5. Mỗi bài chỉ khác nhau ở tên tháng phải học lại.
+   ========================================================= */
+function showVerdict(el, right, n, blank, month){
+  const p = Math.round(right / n * 100);
+  let cls, head, body;
+  if (p >= 90){ cls='green'; head='Nắm rất vững';
+    body='Bạn có thể đi tiếp và học nhanh hơn lịch nếu muốn. Vẫn ghi các câu sai vào sổ lỗi.'; }
+  else if (p >= 75){ cls='green'; head='Đạt yêu cầu';
+    body='Đi tiếp theo lịch. Ghi mọi câu sai vào sổ lỗi và ôn lại vào buổi thứ Bảy.'; }
+  else if (p >= 60){ cls='amber'; head='Chưa vững';
+    body=`Dành thêm <b>3 ngày</b> ôn lại đúng những chủ điểm bạn sai rồi mới sang tháng ${month+1}. Ba ngày này lấy từ 2 tuần đệm — đó là việc chúng có mặt trong lịch.`; }
+  else { cls='red'; head='Chưa nắm được';
+    body=`<b>Học lại cả tháng ${month}.</b> Sang trang Lộ trình, bấm “Học lại tháng ${month}” — số ngày sẽ lùi lại nhưng số giờ bạn đã bỏ ra vẫn được giữ. Đừng đi tiếp: nền yếu sẽ sập ở tháng sau, và lúc đó bạn sẽ phải học lại nhiều hơn một tháng.`; }
+  el.hidden = false;
+  el.className = 'verdict ' + cls;
+  el.innerHTML = `<div class="v-h">${head} — ${p}% (${right}/${n})</div><p>${body}</p>` +
+    (blank ? `<p class="v-n">Còn ${blank} câu chưa chọn — điểm thật sẽ khác.</p>` : '') +
+    `<p class="v-n">Chép mọi câu sai vào sổ lỗi ngay bây giờ. Đây mới là phần có giá trị của bài kiểm tra — điểm số chỉ là cái cớ để tìm ra chúng.</p>`;
+  el.scrollIntoView({ behavior:'smooth', block:'center' });
+}
+
 /* ---------- Tổng số giờ đã học ---------- */
 function minutesOfDay(n){
   const { w, d } = locate(n);
@@ -192,7 +249,7 @@ function minutesOfDay(n){
   return days[d] ? days[d].min : 0;
 }
 function hoursDone(){
-  let min = 0;
+  let min = extraMin();                       // giờ của những tháng đã học lại
   for (const n of Object.keys(doneDays())) min += minutesOfDay(+n);
   return min / 60;
 }
@@ -201,3 +258,6 @@ function hoursTotal(){
   WEEKS.forEach(w => buildWeek(w).forEach(d => { min += d.min; }));
   return min / 60;
 }
+/* 13.830 phút = 230,5 giờ. Làm tròn XUỐNG để con số hiển thị khớp với
+   "230 giờ" viết ở mọi trang — toFixed(0) cho ra 231 và lệch với chính mình. */
+const hoursTotalLabel = () => Math.floor(hoursTotal());

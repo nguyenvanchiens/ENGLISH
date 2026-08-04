@@ -9,7 +9,7 @@
    · Tháng 5–6 — ngữ pháp 20' | Anki 15' | nghe 20' | nói+viết 10' | từ 10' | đọc 15'
      (lên B2 là chuyện lượng input, không phải thêm luật ngữ pháp)
 
-   Bốn nguyên tắc đứng sau các con số này:
+   Bảy nguyên tắc đứng sau các con số này:
    · Ngữ pháp chỉ 30' ngay từ tháng 1. Câu đơn của bạn đã đúng cấu trúc —
      vấn đề là luật chưa thành phản xạ, và phản xạ đến từ input, không từ bài tập.
    · Anki 15' chứ không phải 10', và chỉ 10 từ mới/ngày. Ở trạng thái ổn định
@@ -19,6 +19,18 @@
    · Nghe MỖI NGÀY từ ngày 1 — không dồn vào 1 tuần cuối khoá.
    · Nói: mỗi ngày NÓI 5 câu trước khi viết, T7 nói 15' với AI voice,
      CN drill phát âm. Tổng ~19 giờ nói thay vì ~4 giờ.
+   · NGỮ PHÁP CŨNG PHẢI VÀO ANKI. Từ vựng có lịch chống quên, ngữ pháp thì
+     không: học ngày X, ôn T7, kiểm tra cuối tháng, rồi im lặng tới tuần 22 —
+     mạo từ của tháng 1 không được chạm lại trong 4 tháng. Buổi T7 giờ biến
+     5 câu SAI của tuần thành 5 thẻ cloze. 5 thẻ/tuần chứ không phải 3 thẻ/ngày:
+     hàng đợi lên ~78 thẻ/ngày thay vì ~105, vẫn nằm trong 15'. Không thêm phút nào.
+   · Từ vựng chọn theo TẦN SUẤT trước, chủ đề sau — 7 từ Oxford 3000 dải B1–B2
+     + 3 từ chủ đề tuần. Ngân sách chỉ có 1.200 từ mới cho khoảng trống 2.200 từ,
+     nên độ phủ phải đi trước sở thích.
+   · Đọc đúng cấp: graded reader tháng 1–3, docs kỹ thuật từ tháng 4. Docs là
+     văn phong danh từ ghép dày đặc, gần như không có ngữ cảnh lặp lại để đoán
+     nghĩa — nó dễ TRA chứ không dễ ĐỌC. Và đơn vị đo là SỐ TỪ, không phải
+     "1 trang": trang không đo được lượng input.
    ========================================================= */
 
 const MONTHS = [
@@ -69,7 +81,7 @@ const WEEKS = [
       'Động từ bất quy tắc — nhóm 1 (40 từ)',
       'Phủ định và nghi vấn: didn\'t, did you...?',
       'Quá khứ tiếp diễn + when / while',
-      'KIỂM TRA THÁNG 1 — 40 câu ngữ pháp + 1 bài viết' ] },
+      'KIỂM TRA THÁNG 1 — 30 câu + viết 120 từ + nghe + nói (trang Ôn tập)' ] },
 
   /* ---------- THÁNG 2 ---------- */
   { n:5, m:2, theme:'Hiện tại hoàn thành', vocab:'80 động từ bất quy tắc (cột V3)',
@@ -103,7 +115,7 @@ const WEEKS = [
       'must / have to / should',
       'mustn\'t vs don\'t have to — hai nghĩa hoàn toàn khác',
       'may / might — nói về khả năng',
-      'KIỂM TRA THÁNG 2 — 40 câu + viết 100 từ' ] },
+      'KIỂM TRA THÁNG 2 — 40 câu + viết 120 từ + nghe + nói (trang Ôn tập)' ] },
 
   /* ---------- THÁNG 3 ---------- */
   { n:9, m:3, theme:'Câu điều kiện', vocab:'giả định & phỏng đoán',
@@ -136,8 +148,8 @@ const WEEKS = [
       'had + V3 — việc xảy ra trước một mốc quá khứ',
       'by the time / before / after / already',
       'Quá khứ hoàn thành vs Quá khứ đơn',
-      'Điều kiện loại 3 và điều kiện TRỘN — quá khứ khác thì hiện tại khác',
-      'KIỂM TRA THÁNG 3 — mốc chạm B1: 50 câu + đọc + viết 120 từ' ] },
+      'Điều kiện loại 3 — giả định trái với quá khứ',
+      'KIỂM TRA THÁNG 3 — mốc chạm B1: 45 câu + đọc + viết 150 từ (trang Ôn tập)' ] },
 
   /* ---------- THÁNG 4 ---------- */
   { n:13, m:4, theme:'Mệnh đề quan hệ', vocab:'định nghĩa & giải thích',
@@ -171,7 +183,7 @@ const WEEKS = [
       'however / therefore / moreover / on the other hand',
       'Trình tự: first, then, after that, finally',
       'Viết đoạn văn 120 từ có liên kết chặt',
-      'KIỂM TRA THÁNG 4 — 50 câu + viết 150 từ' ] },
+      'KIỂM TRA THÁNG 4 — 45 câu + đọc + viết 150 từ (trang Ôn tập)' ] },
 
   /* ---------- THÁNG 5 ---------- */
   { n:17, m:5, theme:'Thì nâng cao & modal perfect', vocab:'trạng từ chỉ thời gian nâng cao',
@@ -183,13 +195,13 @@ const WEEKS = [
       'Tổng hợp 12 thì — sơ đồ trục thời gian',
       'Modal perfect — suy đoán về quá khứ: must / should / could + have + V3' ] },
   { n:18, m:5, theme:'Cấu trúc B2', vocab:'văn phong trang trọng',
-    review:'viết 5 câu: 2 đảo ngữ · 2 câu chẻ · 1 used to / be used to',
+    review:'viết 5 câu: 2 đảo ngữ · 1 câu chẻ · 1 used to · 1 điều kiện trộn',
     topics:[
       'Đảo ngữ: hardly, no sooner, not only',
       'Câu chẻ: It is ... that / What I need is ...',
       'I\'d rather / It\'s time + quá khứ đơn',
       'used to / be used to / get used to',
-      'Danh động từ hoàn thành: having done' ] },
+      'Điều kiện TRỘN — quá khứ khác thì hiện tại khác' ] },
   { n:19, m:5, theme:'Viết mức B2', vocab:'từ vựng học thuật cơ bản',
     review:'chạy checklist 10 lỗi lên đoạn vừa viết, đếm số lỗi bắt được',
     topics:[
@@ -213,7 +225,7 @@ const WEEKS = [
       'Nâng cấp từ đồng nghĩa: big → significant, get → obtain',
       'Word family: analyse / analysis / analytical',
       'Idiom công sở thông dụng',
-      'KIỂM TRA THÁNG 5 — 60 câu + đọc B2 + viết 180 từ' ] },
+      'KIỂM TRA THÁNG 5 — 50 câu + đọc B2 + viết 180 từ (trang Ôn tập)' ] },
 
   /* ---------- THÁNG 6 ---------- */
   { n:22, m:6, theme:'Ôn ngữ pháp tổng hợp', vocab:'ôn toàn bộ từ đã học',
@@ -264,8 +276,9 @@ const WEEKS = [
         tasks:[['Nghe 20 câu không phụ đề, không nghe lại lần 2',25],
                ['Nói 3 phút về công việc của bạn — ghi âm, không chuẩn bị trước',20]] },
       { d:5, min:60, focus:'Chấm bài và xác định trình độ mới',
-        tasks:[['Chấm cả 4 phần, tính điểm từng kỹ năng',25],
-               ['So sánh với kết quả ngày 30.07.2026',15],
+        tasks:[['Chấm trắc nghiệm + nghe · gửi bài viết và bản ghi âm cho AI chấm',25],
+               ['So sánh với bài test đầu vào ở trang Tổng quan',10],
+               ['ĐO CỠ TỪ VỰNG lần 3 — so với ngày 7 và ngày 91',5],
                ['Nghe lại 6 bản ghi âm — tuần 1 và 5 bài kiểm tra tháng',10],
                ['Ghi lại các chủ điểm còn yếu',10]] },
       { d:6, min:45, focus:'Lập kế hoạch 6 tháng tiếp theo',
@@ -282,11 +295,27 @@ const WEEKS = [
    ========================================================= */
 const LISTEN = {
   1:'BBC Learning English · English at Work — nghe 2 lần, có transcript',
-  2:'BBC 6 Minute English — nghe chay 1 lần, rồi mở transcript nghe lại',
+  2:'BBC 6 Minute English — nghe chay 1 lần, rồi mở transcript nghe lại. CHỈ lên mức này nếu phần nghe Test 1 đạt ≥ 7/10; chưa đạt thì ở lại English at Work thêm 1 tháng',
   3:'BBC 6 Minute English — nghe chay 2 lần TRƯỚC khi mở transcript',
   4:'Podcast dev nói chậm (Syntax, CodeNewbie) — bật phụ đề',
   5:'Talk hội thảo 15 phút — lần 1 bật phụ đề, lần 2 tắt phụ đề',
   6:'Nghe chay, không phụ đề — talk, podcast, hoặc họp thật',
+};
+
+/* =========================================================
+   ĐỌC — cấp độ theo tháng, đo bằng SỐ TỪ chứ không bằng số trang.
+   Tháng 1–3 dùng graded reader: câu ngắn, từ lặp lại, có ngữ cảnh để đoán
+   nghĩa. Docs kỹ thuật quen thuộc với dân dev nhưng KHÔNG dễ đọc hơn —
+   nó là chuỗi danh từ ghép, gần như không lặp lại, nên nó rèn tra cứu chứ
+   không rèn đọc. Từ tháng 4 mới chuyển sang bản gốc.
+   ========================================================= */
+const READ = {
+  1:'Graded reader level 2 (~1.000 từ) — không tra quá 5 từ mỗi trang',
+  2:'Graded reader level 2 (~1.200 từ) — đoán nghĩa trước, tra sau',
+  3:'Graded reader level 3 (~1.200 từ) — bắt đầu có câu phức',
+  4:'Docs / Stack Overflow bản gốc (~1.000 từ) — bản gốc, không dịch',
+  5:'Docs + 1 bài blog kỹ thuật (~1.500 từ)',
+  6:'Đọc tự do mức B1–B2 (~1.500 từ) — báo, blog, tài liệu',
 };
 
 /* =========================================================
@@ -318,19 +347,23 @@ function buildWeek(w){
   if (w.custom) return w.custom;
   const late   = w.m >= 5;          // tháng 5–6: bớt ngữ pháp, tăng nghe
   const listen = LISTEN[w.m];
+  const read   = READ[w.m];
 
   const days = w.topics.map((topic, i) => {
     const isTest = !!w.milestone && i === 4;
     /* Ngày kiểm tra tháng — đo CẢ 4 kỹ năng, không chỉ ngữ pháp + viết.
        Nghe và nói phải có mốc mỗi tháng, không thể đợi tới tuần 20 mới đo. */
+    /* Tự chấm được trắc nghiệm, KHÔNG tự chấm được bài viết và bản ghi âm:
+       ở mức A2 bạn không nhìn ra lỗi mà bạn chưa biết là lỗi. Đó là nguyên
+       tắc số 2 của chính lộ trình này — không phản hồi thì lỗi thành tật. */
     if (isTest) return {
       d:i+1, min:90, focus:topic, test:true,
       tasks:[
-        ['Làm phần trắc nghiệm, không tra cứu, bấm thời gian',35],
+        ['Làm phần trắc nghiệm trên trang Ôn tập — không tra cứu, bấm thời gian',35],
         ['Làm phần viết theo đề',20],
         ['Nghe 10 câu không phụ đề, không nghe lại lần 2',10],
         ['Nói 1 phút về 1 chủ đề tự chọn — ghi âm để so với tháng trước',5],
-        ['Tự chấm cả 4 phần, ghi điểm từng kỹ năng',12],
+        ['Tự chấm trắc nghiệm + nghe · GỬI bài viết và bản ghi âm cho AI chấm',12],
         ['Ghi lại mọi câu sai vào sổ lỗi',8] ] };
     return {
       d:i+1, min:90, focus:topic,
@@ -338,18 +371,18 @@ function buildWeek(w){
         ['Ôn Anki — làm hết thẻ đến hạn hôm nay',15],
         ['Học lý thuyết: '+topic,10],
         ['Làm bài tập trong English Grammar in Use',10],
-        ['Từ vựng mới — 10 từ chủ đề '+w.vocab,10],
+        ['Từ vựng mới — 7 từ Oxford 3000 (B1–B2) + 3 từ chủ đề '+w.vocab,10],
         ['NÓI to 5 câu dùng điểm ngữ pháp vừa học, rồi viết lại',10],
         ['Nghe — '+listen,20],
-        ['Đọc 1 trang documentation hoặc graded reader',15] ]
+        ['Đọc — '+read,15] ]
       : [
         ['Ôn Anki — làm hết thẻ đến hạn hôm nay',15],
         ['Học lý thuyết: '+topic,15],
         ['Làm bài tập trong English Grammar in Use',15],
-        ['Từ vựng mới — 10 từ chủ đề '+w.vocab,10],
+        ['Từ vựng mới — 7 từ Oxford 3000 (B1–B2) + 3 từ chủ đề '+w.vocab,10],
         ['NÓI to 5 câu dùng điểm ngữ pháp vừa học, rồi viết lại',10],
         ['Nghe — '+listen,15],
-        ['Đọc 1 trang documentation hoặc graded reader',10] ] };
+        ['Đọc — '+read,10] ] };
   });
 
   /* T7 — ôn tập, và đây là ngày có PHẢN HỒI: nói với AI + chấm bài.
@@ -357,16 +390,25 @@ function buildWeek(w){
      không cần đợi tới tháng 7–12 mới tìm người luyện nói. */
   days.push({ d:6, min:60, focus:'Ôn tập tuần '+w.n, review:true,
     tasks:[
-      ['Làm lại toàn bộ câu sai trong tuần',10],
+      ['Làm lại câu sai trong tuần → biến 5 câu thành thẻ cloze Anki',10],
       ['Ôn toàn bộ từ vựng của tuần trên Anki',10],
       ['Viết 1 đoạn 80 từ dùng ngữ pháp tuần này',10],
       ['Tự kiểm tra 5 phút: '+w.review,5],
       ['NÓI 15 phút với AI voice về chủ đề tuần — ghi âm, nghe lại 1 lần',15],
       ['Gửi đoạn văn cho AI chấm — ghi mọi lỗi vào sổ lỗi',10] ] });
 
-  /* CN — ngày nhẹ, nhưng vẫn có phát âm và nghe */
-  days.push({ d:7, min:30, focus:'Ngày nhẹ — giữ nhịp', light:true,
-    tasks:[
+  /* CN — ngày nhẹ, nhưng vẫn có phát âm và nghe.
+     Tuần 1 và 13: đo CỠ TỪ VỰNG. Từ vựng là khoảng cách lớn nhất tới B2 và
+     là con số duy nhất lộ trình dám dự đoán (~2.100) — nên nó phải được đo,
+     không phải chỉ được hứa. Ba lần đo: ngày 7, ngày 91, ngày 180. */
+  const measure = w.n === 1 || w.n === 13;
+  days.push({ d:7, min:30, focus:'Ngày nhẹ — giữ nhịp'+(measure?' · đo cỡ từ vựng':''), light:true,
+    tasks: measure ? [
+      ['Phát âm — '+PRON[(w.n - 1) % 13],5],
+      ['ĐO CỠ TỪ VỰNG — testyourvocab.com, ghi lại con số và ngày',10],
+      ['Nghe hoặc xem video tiếng Anh có phụ đề',5],
+      ['Ôn nhanh Anki, không học từ mới',10] ]
+    : [
       ['Phát âm — '+PRON[(w.n - 1) % 13],5],
       ['Nghe hoặc xem video tiếng Anh có phụ đề',15],
       ['Ôn nhanh Anki, không học từ mới',10] ] });
@@ -385,11 +427,11 @@ const B2_MAP = [
   { area:'Ngữ pháp', gap:'high', reach:'full',
     need:'12 thì · điều kiện loại 0–3 và loại trộn · bị động mọi thì · mệnh đề quan hệ · câu tường thuật · đảo ngữ · câu chẻ · modal perfect',
     now:'Thì hiện tại và quá khứ đơn ở mức nhận biết',
-    plan:'Xong hết, kể cả điều kiện trộn (tuần 12) và modal perfect (tuần 17). Đây là phần lộ trình lo được trọn vẹn nhất.' },
+    plan:'Xong hết, kể cả modal perfect (tuần 17) và điều kiện trộn (tuần 18). Đây là phần lộ trình lo được trọn vẹn nhất — và là phần duy nhất có đủ 6 bài kiểm tra để chứng minh.' },
   { area:'Từ vựng', gap:'high', reach:'part',
     need:'4.000 – 5.000 từ chủ động, có collocation và word family',
     now:'Khoảng 800 – 1.200 từ',
-    plan:'~2.100 từ (10 từ × 120 ngày, nhớ thật ~85% + 60 phrasal verb + 100 collocation + từ gặp khi đọc). Còn thiếu ~2.200 từ — đây là con số thật, không phải con số trên giấy.' },
+    plan:'~2.100 từ (10 từ × 120 ngày, nhớ thật ~85% + 60 phrasal verb + 100 collocation + từ gặp khi đọc). Từ nay 7/10 từ mỗi ngày lấy theo TẦN SUẤT (Oxford 3000 dải B1–B2), vì 1.200 từ mới phải đắp cho khoảng trống 2.200 từ. Đo lại 3 lần: ngày 7, 91, 180 — con số này phải được đo chứ không phải được hứa. Còn thiếu ~2.200 từ.' },
   { area:'Đọc', gap:'mid', reach:'full',
     need:'Đọc báo, tài liệu kỹ thuật, hiểu cả ý ẩn và giọng điệu tác giả',
     now:'Hiểu tốt văn bản A2, chưa đọc được B2',
@@ -400,8 +442,8 @@ const B2_MAP = [
     plan:'Viết được 200 từ có liên kết, tự sửa được lỗi cơ bản. Còn thiếu độ sắc của luận điểm.' },
   { area:'Nghe', gap:'unknown', reach:'part',
     need:'Hiểu hội thoại tốc độ tự nhiên, nhiều giọng, không phụ đề',
-    now:'Chưa đo — mốc nghe đầu tiên đo ở bài kiểm tra tháng 1 (ngày 28)',
-    plan:'~40 giờ luyện, mỗi ngày đều nghe (15′ tháng 1–4, 20′ tháng 5–6). Có mốc đo ở mỗi bài kiểm tra tháng. Hiểu được hội thoại rõ tốc độ trung bình. Giọng lạ và nói nhanh thì chưa.' },
+    now:'Chưa đo — mốc nghe đầu tiên đo ở bài kiểm tra tháng 1 (ngày 26)',
+    plan:'~40 giờ luyện, mỗi ngày đều nghe (15′ tháng 1–4, 20′ tháng 5–6). Có mốc đo ở mỗi bài kiểm tra tháng, và việc lên mức khó hơn ở tháng 2 phụ thuộc vào điểm nghe Test 1 chứ không phải vào tờ lịch. Hiểu được hội thoại rõ tốc độ trung bình. Giọng lạ và nói nhanh thì chưa.' },
   { area:'Nói', gap:'unknown', reach:'part',
     need:'Nói liên tục 4 phút về chủ đề trừu tượng, phát âm dễ hiểu',
     now:'Chưa đo — mốc nói lấy từ bản ghi AI voice ngày ôn tập tuần 1',

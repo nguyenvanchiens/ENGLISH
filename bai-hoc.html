@@ -25,11 +25,15 @@
 </div></nav>
 
 <header class="hero" style="padding:48px 0 32px"><div class="wrap">
-  <p class="eyebrow">Tuần 1 – 2 · Tháng 1 · Vá lỗ hổng A2</p>
+  <p class="eyebrow" id="hero-k">Tuần 1 – 21 · toàn bộ ngữ pháp A2 → B2</p>
   <h1>Bài học</h1>
-  <p class="lede">Bảy bài đầu tiên, đủ cho hai tuần đầu của lộ trình. Mỗi bài mở đầu bằng
-    <b>vì sao tiếng Anh cần điểm ngữ pháp đó</b> và <b>tiếng Việt làm việc đó bằng cách nào</b> —
-    rồi mới đến luật, ví dụ đúng/sai và <b>18 câu bài tập tự chấm</b> ngay trên trang.</p>
+  <p class="lede">Mỗi bài mở đầu bằng <b>vì sao tiếng Anh cần điểm ngữ pháp đó</b> và
+    <b>tiếng Việt làm việc đó bằng cách nào</b> — rồi mới đến luật, ví dụ đúng/sai và
+    <b>bài tập tự chấm</b> ngay trên trang.</p>
+  <p class="lede" style="margin-top:12px">Bảy bài đầu dài gấp ba phần còn lại: đó là những chủ điểm bạn
+    <b>đang sai</b> trong bài viết đầu vào, nên chúng được viết kỹ hơn. Từ tuần 2 ngày 3 trở đi là dạng gọn —
+    cùng cấu trúc, ít chữ hơn. Tháng 6 (tuần 22–26) không có bài mới: đó là bốn tuần ôn theo khối và
+    thi thử, nằm ở trang <a href="on-tap.html">Ôn tập</a>.</p>
 </div></header>
 
 <div class="wrap lessons">
@@ -46,7 +50,7 @@
       <li><a href="#l6"><code>at / on / in</code> — thời gian</a><em>Ngày 8</em></li>
       <li><a href="#l7"><code>at / in / on</code> — nơi chốn</a><em>Ngày 9</em></li>
     </ol>
-    <p class="navnote">Mỗi bài: vì sao cần → luật → ví dụ đúng/sai → 18 câu tự chấm.<br>Muốn xem <b>vì sao</b> của cả 26 tuần thì sang trang <a href="khai-niem.html">Khái niệm</a>. Bài chi tiết từ tuần 3 sẽ bổ sung dần.</p>
+    <p class="navnote">Mỗi bài: vì sao cần → luật → ví dụ đúng/sai → bài tập tự chấm.<br>Muốn xem <b>vì sao</b> của cả 26 tuần thì sang trang <a href="khai-niem.html">Khái niệm</a>. Bài kiểm tra mốc nằm ở trang <a href="on-tap.html">Ôn tập</a>.</p>
   </aside>
 
   <!-- NỘI DUNG -->
@@ -576,12 +580,16 @@ else {
       Và mỗi tuần <b>gửi 1 bài viết cho tôi chấm</b> — không có phản hồi thì lỗi sẽ thành thói quen.</p>
   </div>
 
+  <!-- ===== CÁC BÀI TỪ TUẦN 2 NGÀY 3 TRỞ ĐI — dựng từ bai-hoc.js ===== -->
+  <div id="rest"></div>
+
   </main>
 </div>
 
-<footer class="foot"><div class="wrap"><p>Bài học tuần 1–2 · Các tuần sau bổ sung dần theo tiến độ</p></div></footer>
+<footer class="foot"><div class="wrap"><p id="foot-n">Bài học</p></div></footer>
 
 <script src="data.js"></script>
+<script src="bai-hoc.js"></script>
 <script src="app.js"></script>
 <script>
 /* ================== BÀI TẬP TỰ CHẤM ================== */
@@ -740,6 +748,73 @@ const QUIZZES = {
 };
 
 Quiz.mountAll(QUIZZES);
+
+/* ================== CÁC BÀI CÒN LẠI — dựng từ LESSONS ==================
+   Tiêu đề bài và số ngày KHÔNG viết tay ở đây: chúng lấy thẳng từ
+   WEEKS[w-1].topics[i] của data.js. Sửa lộ trình là trang này đổi theo,
+   nên hai nơi không thể lệch nhau. */
+const esc = s => String(s);
+const lessonTitle = L => WEEKS[L.w - 1].topics[L.i];
+const lessonDay   = L => (L.w - 1) * 7 + L.i + 1;
+const lessonId    = L => `l${L.w}-${L.i}`;
+
+function exBlock(rows){
+  return `<div class="ex">${rows.map(([k, s, hint]) =>
+    `<p class="${k}">${s}${hint ? `<span class="hint">${hint}</span>` : ''}</p>`).join('')}</div>`;
+}
+function tblBlock(rows){
+  const [head, ...body] = rows;
+  return `<table class="tbl">
+    <thead><tr>${head.map(c => `<th>${c}</th>`).join('')}</tr></thead>
+    <tbody>${body.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join('')}</tr>`).join('')}</tbody></table>`;
+}
+function block(b){
+  return (b.h ? `<h4>${b.h}</h4>` : '')
+    + (b.p ? `<p style="font-size:15px">${b.p}</p>` : '')
+    + (b.tbl ? tblBlock(b.tbl) : '')
+    + (b.ex ? exBlock(b.ex) : '')
+    + (b.tip ? `<div class="tip">${b.tip}</div>` : '');
+}
+
+document.getElementById('rest').innerHTML = LESSONS.map(L => {
+  const wk = WEEKS[L.w - 1];
+  return `<article class="lesson" id="${lessonId(L)}">
+    <div class="lesson-h"><span class="pill red">Ngày ${lessonDay(L)}</span>
+      <h2 style="font-size:26px">${lessonTitle(L)}</h2></div>
+    <p class="sub">Tuần ${wk.n} · ${wk.theme} — ${L.sub}</p>
+    <div class="why">
+      <div class="why-k">Vì sao tiếng Anh cần cái này</div>
+      <p class="why-job">${L.why}</p>
+      <div class="why-bridge">${L.bridge.map(([vn, en, note]) =>
+        `<div class="brow"><span class="bvn">${vn}</span><span class="ben">${en}${
+          note ? ` <span class="hint">${note}</span>` : ''}</span></div>`).join('')}</div>
+      ${L.note ? `<p class="why-note">${L.note}</p>` : ''}
+      <p class="why-lose"><b>Bỏ đi thì mất gì:</b> ${L.lose}</p>
+    </div>
+    ${L.blocks.map(block).join('')}
+    <div class="quiz" data-quiz="${lessonId(L)}"></div>
+  </article>`;
+}).join('');
+
+/* mục lục bên trái — nối tiếp 7 bài viết tay */
+document.querySelector('.lessons-nav ol').insertAdjacentHTML('beforeend',
+  LESSONS.map(L => `<li><a href="#${lessonId(L)}">${lessonTitle(L)}</a><em>Ngày ${lessonDay(L)}</em></li>`).join(''));
+
+/* bài tập của các bài này */
+const restQuiz = {};
+LESSONS.forEach(L => {
+  restQuiz[lessonId(L)] = { title:`Bài tập — ${lessonTitle(L)} (${L.quiz.length} câu)`, items:L.quiz };
+});
+Quiz.mountAll(restQuiz, '#rest .quiz');
+
+/* con số ở chân trang và ở đầu trang lấy từ dữ liệu, không viết tay —
+   thêm một bài là hai chỗ tự đổi theo */
+const soBai = 7 + LESSONS.length;
+const soCau = 126 + LESSONS.reduce((a, L) => a + L.quiz.length, 0);
+document.getElementById('foot-n').textContent =
+  `${soBai} bài học · ${soCau} câu bài tập tự chấm · tiến độ lưu trên máy bạn`;
+document.getElementById('hero-k').textContent =
+  `Tuần 1 – 21 · ${soBai} bài · ${soCau} câu tự chấm · toàn bộ ngữ pháp A2 → B2`;
 </script>
 </body>
 </html>

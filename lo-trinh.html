@@ -97,7 +97,11 @@ MONTHS.forEach(mo => {
       <div><span class="mhead-n">${mo.name}</span>
         <h3>${mo.title}</h3>
         <p>${mo.goal}</p></div>
-      <span class="pill">Ngày ${first}–${last}</span>
+      <div style="flex:0 0 auto;text-align:right">
+        <span class="pill">Ngày ${first}–${last}</span>
+        <div><button class="redo-btn" data-redo="${mo.n}" type="button">Học lại ${mo.name.toLowerCase()}</button></div>
+        <div class="redo-note" data-redonote="${mo.n}"></div>
+      </div>
     </div>`;
 
   weeksOfMonth.forEach(w => {
@@ -182,8 +186,15 @@ function paint(){
   document.getElementById('bigbar').style.setProperty('--pct', pct + '%');
   document.getElementById('nums').innerHTML = `
     <div><span class="stat-k">Ngày</span><b>${d}/182</b></div>
-    <div><span class="stat-k">Giờ</span><b>${h.toFixed(1)}/${hoursTotal().toFixed(0)}</b></div>
+    <div><span class="stat-k">Giờ</span><b>${h.toFixed(1)}/${hoursTotalLabel()}</b></div>
     <div><span class="stat-k">Còn lại</span><b>${182-d} ngày</b></div>`;
+  /* tháng nào đã học lại thì ghi rõ — số giờ vượt mục tiêu là vì việc này */
+  const redos = redoLog();
+  document.querySelectorAll('[data-redonote]').forEach(el => {
+    const times = redos.filter(r => r.m === +el.dataset.redonote);
+    el.textContent = times.length
+      ? `đã học lại ${times.length} lần · ${times[times.length-1].on.split('-').reverse().join('.')}` : '';
+  });
   /* chấm theo tháng */
   document.getElementById('dots').innerHTML = MONTHS.map(m => {
     const ws = WEEKS.filter(w => w.m === m.n);
@@ -200,6 +211,20 @@ function paint(){
 list.addEventListener('change', e => {
   const b = e.target.closest('input[data-n]'); if (!b) return;
   setDay(b.dataset.n, b.checked);
+  paint();
+});
+
+/* ---------------- Học lại một tháng ----------------
+   Luật ở trang Ôn tập: dưới 60% thì học lại cả tháng. Không có nút này thì
+   luật đó không thực hiện được — bỏ tích tay 28 ô sẽ xoá luôn số giờ đã học,
+   và không ai tự nguyện xoá công sức của mình. Ngày lùi lại, giờ giữ nguyên. */
+list.addEventListener('click', e => {
+  const b = e.target.closest('.redo-btn'); if (!b) return;
+  const m = +b.dataset.redo;
+  const mo = MONTHS.find(x => x.n === m);
+  if (!confirm(`Học lại ${mo.name}?\n\nCác ngày của tháng này sẽ được bỏ tích để bạn học lại từ đầu.\nSố giờ bạn đã bỏ ra vẫn được giữ nguyên trong phần "Giờ".`)) return;
+  const n = redoMonth(m);
+  if (!n){ alert('Tháng này chưa có ngày nào được tích — không có gì để học lại.'); return; }
   paint();
 });
 
@@ -256,8 +281,8 @@ sd.addEventListener('change', () => {
 });
 
 document.getElementById('resetAll').addEventListener('click', () => {
-  if (!confirm('Xoá toàn bộ tiến độ 182 ngày?')) return;
-  Store.del(K.days); paint();
+  if (!confirm('Xoá toàn bộ tiến độ 182 ngày?\n\nCả số giờ đã học và lịch sử học lại cũng bị xoá.')) return;
+  Store.del(K.days); Store.del(K.extra); Store.del(K.redo); paint();
 });
 
 /* ---------------- Khởi động ---------------- */

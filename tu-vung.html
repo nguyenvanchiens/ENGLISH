@@ -134,6 +134,17 @@
     <ul class="mini" id="rules" style="margin-top:18px"></ul>
   </div>
 
+  <div class="card" style="margin-top:16px;border-left:3px solid var(--amber)">
+    <h4>Loại thẻ thứ hai — cloze ngữ pháp, 5 thẻ mỗi thứ Bảy</h4>
+    <p class="sub" style="margin-top:8px;margin-bottom:16px">Từ vựng có Anki lo việc chống quên; <b>ngữ pháp thì không</b> —
+      học ngày X, ôn thứ Bảy, kiểm tra cuối tháng, rồi im lặng tới tuần 22. Mạo từ của tháng 1 sẽ không được chạm lại trong bốn tháng.
+      Nguyên liệu có sẵn và miễn phí: chính những câu bạn viết sai trong tuần.</p>
+    <div id="demo2" class="vcard"></div>
+    <ul class="mini" id="rules2" style="margin-top:18px"></ul>
+    <p class="sub" style="margin-top:14px">Chi phí: hàng đợi từ <b>~70 lên ~78 thẻ/ngày</b>, vẫn nằm trong 15 phút.
+      Không thêm một phút nào vào lịch — việc chữa câu sai thứ Bảy vốn đã có sẵn 10 phút.</p>
+  </div>
+
   <div class="card" style="margin-top:16px;border-left:3px solid var(--red)">
     <h4>Ba thứ không dùng</h4>
     <ul class="mini" style="margin-top:12px">
@@ -251,6 +262,16 @@ document.getElementById('demo').innerHTML = `
 
 document.getElementById('rules').innerHTML =
   CARD_DEMO.rules.map(r => `<li>${r}</li>`).join('');
+
+document.getElementById('demo2').innerHTML = `
+  <div class="vside"><span class="gap-k">Mặt trước</span>
+    <b>${esc(CLOZE_DEMO.front[0])}</b><em>${esc(CLOZE_DEMO.front[1])}</em></div>
+  <div class="vside"><span class="gap-k">Mặt sau</span>
+    <b>${esc(CLOZE_DEMO.back[0])}</b>
+    <p>${esc(CLOZE_DEMO.back[1])}</p><em>${esc(CLOZE_DEMO.back[2])}</em></div>`;
+
+document.getElementById('rules2').innerHTML =
+  CLOZE_DEMO.rules.map(r => `<li>${r}</li>`).join('');
 
 /* ================= tích & tiến độ ================= */
 const boxes = [...document.querySelectorAll('input[data-v]')];

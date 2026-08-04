@@ -438,6 +438,21 @@ pre.code{
 .chips span{font-family:var(--mono);font-size:12.5px;padding:5px 11px;
   background:var(--surface-2);border:1px solid var(--line);border-radius:5px;color:var(--ink-2)}
 
+/* ================= BÀI ĐỌC TRONG BÀI KIỂM TRA =================
+   Dòng dài hơn phần còn lại của trang một chút và giãn dòng rộng hơn:
+   đây là chỗ duy nhất người học phải đọc liền mấy trăm từ tiếng Anh. */
+.readtext{margin-top:14px;padding:18px 20px;background:var(--surface-2);
+  border:1px solid var(--line);border-radius:8px}
+.readtext p{font-size:15.5px;line-height:1.85;max-width:68ch}
+.readtext p + p{margin-top:14px}
+
+/* Nút học lại một tháng — nằm trong đầu mỗi nhóm tháng ở trang Lộ trình */
+.redo-btn{margin-top:8px;font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+  padding:5px 10px;border:1px dashed var(--line);border-radius:5px;
+  background:none;color:var(--ink-3);cursor:pointer;white-space:nowrap}
+.redo-btn:hover{color:var(--red);border-color:var(--red);border-style:solid}
+.redo-note{font-family:var(--mono);font-size:10.5px;color:var(--amber);margin-top:6px}
+
 /* ================= BÀI TẬP ================= */
 .quiz{margin-top:28px;background:var(--surface);border:1px solid var(--line);
   border-left:3px solid var(--green);border-radius:8px;padding:20px 22px;box-shadow:var(--shadow)}
