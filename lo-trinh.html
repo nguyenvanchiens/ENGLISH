@@ -1,0 +1,273 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lộ trình 6 tháng · 182 ngày</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+  <a class="brand" href="index.html"><i>EN</i> A2 → B2</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Tổng quan</a></li>
+    <li><a href="lo-trinh.html">Lộ trình</a></li>
+    <li><a href="khai-niem.html">Khái niệm</a></li>
+    <li><a href="bai-hoc.html">Bài học</a></li>
+    <li><a href="tu-vung.html">Từ vựng</a></li>
+    <li><a href="on-tap.html">Ôn tập</a></li>
+  </ul>
+  <button class="theme-btn" type="button"></button>
+</div></nav>
+
+<header class="hero" style="padding-bottom:36px"><div class="wrap">
+  <p class="eyebrow">26 tuần học · 182 ngày · 230 giờ · đặt lịch 28 tuần</p>
+  <h1>Lộ trình 6 tháng</h1>
+  <p class="lede">Ngày thường 90 phút, thứ Bảy ôn tập 60 phút, Chủ nhật nhẹ 30 phút.
+    Mỗi ngày đều có <b>nghe</b> và <b>nói to 5 câu</b>; thứ Bảy có <b>15 phút nói với AI voice + chấm bài</b>;
+    Chủ nhật có <b>phát âm</b>. Năm bài kiểm tra tháng đo cả nghe và nói, không chỉ ngữ pháp.
+    Tích ô khi học xong. Bỏ một ngày thì không sao — “Hôm nay” đi theo tiến độ của bạn, không theo lịch.</p>
+
+  <!-- HÔM NAY -->
+  <div class="todaybox" id="today"></div>
+
+  <div class="startrow">
+    <label for="sd">Ngày bắt đầu khoá</label>
+    <input type="date" id="sd">
+    <button class="btn ghost sm" id="resetAll" type="button">Xoá toàn bộ tiến độ</button>
+  </div>
+</div></header>
+
+<main>
+<section class="block" style="padding-top:40px"><div class="wrap">
+
+  <!-- TIẾN ĐỘ TỔNG -->
+  <div class="card" style="margin-bottom:28px">
+    <div class="prog-top">
+      <div><div class="stat-k">Tiến độ toàn khoá</div>
+        <div class="stat-v" id="bigpct">0%</div></div>
+      <div class="prog-nums" id="nums"></div>
+    </div>
+    <div class="bar g" id="bigbar" style="--pct:0%;margin-top:14px;height:10px"><i></i></div>
+    <div class="monthdots" id="dots"></div>
+  </div>
+
+  <!-- BỘ LỌC THÁNG -->
+  <div class="filters" id="filters"></div>
+
+  <!-- DANH SÁCH TUẦN -->
+  <div id="list"></div>
+
+</div></section>
+</main>
+
+<footer class="foot"><div class="wrap"><p>Tiến độ lưu trên máy bạn · Bấm tên tuần để mở 7 ngày bên trong</p></div></footer>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+<script>
+/* ---------------- Dựng danh sách 26 tuần ---------------- */
+const list = document.getElementById('list');
+
+function dayClass(day){
+  if (day.test) return 'test';
+  if (day.review) return 'review';
+  if (day.light) return 'light';
+  return '';
+}
+function dayBadge(day){
+  if (day.test)   return '<span class="pill red">Kiểm tra</span>';
+  if (day.review) return '<span class="pill amber">Ôn tập</span>';
+  if (day.light)  return '<span class="pill green">Nhẹ</span>';
+  return '';
+}
+
+let html = '';
+MONTHS.forEach(mo => {
+  const weeksOfMonth = WEEKS.filter(w => w.m === mo.n);
+  const first = dayNo(WEEKS.indexOf(weeksOfMonth[0]), 0);
+  const last  = dayNo(WEEKS.indexOf(weeksOfMonth[weeksOfMonth.length-1]), 6);
+
+  html += `<div class="mgroup" data-m="${mo.n}">
+    <div class="mhead">
+      <div><span class="mhead-n">${mo.name}</span>
+        <h3>${mo.title}</h3>
+        <p>${mo.goal}</p></div>
+      <span class="pill">Ngày ${first}–${last}</span>
+    </div>`;
+
+  weeksOfMonth.forEach(w => {
+    const wi = WEEKS.indexOf(w);
+    const days = buildWeek(w);
+    const from = dayNo(wi, 0), to = dayNo(wi, days.length - 1);
+
+    html += `<article class="week" data-w="${wi}">
+      <button class="week-head" type="button" aria-expanded="false">
+        <span class="week-n">Tuần ${w.n}</span>
+        <span class="week-t">${w.theme}</span>
+        ${w.milestone ? '<span class="pill red">Có bài kiểm tra</span>' : ''}
+        <span class="week-days">Ngày ${from}–${to}</span>
+        <span class="week-cnt" data-cnt="${wi}">0/${days.length}</span>
+        <span class="chev"></span>
+      </button>
+      <div class="week-body">`;
+
+    days.forEach((day, di) => {
+      const n = dayNo(wi, di);
+      html += `<div class="dayrow ${dayClass(day)}" data-n="${n}">
+        <label class="check"><input type="checkbox" data-n="${n}"><span></span></label>
+        <div class="day-n">Ngày ${n}<em>${['T2','T3','T4','T5','T6','T7','CN'][di]}</em></div>
+        <div class="day-main">
+          <div class="day-focus">${day.focus} ${dayBadge(day)}</div>
+          <ul class="tasks">${day.tasks.map(t =>
+            `<li><span>${t[0]}</span><em>${t[1]}′</em></li>`).join('')}</ul>
+        </div>
+        <div class="day-min">${day.min}<em>phút</em></div>
+      </div>`;
+    });
+
+    html += `</div></article>`;
+  });
+  html += `</div>`;
+});
+list.innerHTML = html;
+
+/* ---------------- Bộ lọc tháng ---------------- */
+const filters = document.getElementById('filters');
+filters.innerHTML = `<button class="fbtn on" data-f="all" type="button">Tất cả</button>` +
+  MONTHS.map(m => `<button class="fbtn" data-f="${m.n}" type="button">${m.name}</button>`).join('');
+filters.addEventListener('click', e => {
+  const b = e.target.closest('.fbtn'); if (!b) return;
+  filters.querySelectorAll('.fbtn').forEach(x => x.classList.remove('on'));
+  b.classList.add('on');
+  const f = b.dataset.f;
+  document.querySelectorAll('.mgroup').forEach(g => {
+    g.hidden = !(f === 'all' || g.dataset.m === f);
+  });
+});
+
+/* ---------------- Mở / đóng tuần ---------------- */
+list.addEventListener('click', e => {
+  const head = e.target.closest('.week-head'); if (!head) return;
+  const week = head.parentElement;
+  const open = week.classList.toggle('open');
+  head.setAttribute('aria-expanded', String(open));
+});
+
+/* ---------------- Tích ngày ---------------- */
+const boxes = [...document.querySelectorAll('input[data-n]')];
+
+function paint(){
+  const done = doneDays();
+  boxes.forEach(b => {
+    const on = !!done[b.dataset.n];
+    b.checked = on;
+    b.closest('.dayrow').classList.toggle('done', on);
+  });
+  /* số ngày xong của từng tuần */
+  document.querySelectorAll('.week').forEach(w => {
+    const bs = [...w.querySelectorAll('input[data-n]')];
+    const c = bs.filter(x => x.checked).length;
+    const el = w.querySelector('.week-cnt');
+    el.textContent = c + '/' + bs.length;
+    el.classList.toggle('full', c === bs.length && c > 0);
+  });
+  /* tiến độ tổng */
+  const d = countDone(), pct = Math.round(d / 182 * 100), h = hoursDone();
+  document.getElementById('bigpct').textContent = pct + '%';
+  document.getElementById('bigbar').style.setProperty('--pct', pct + '%');
+  document.getElementById('nums').innerHTML = `
+    <div><span class="stat-k">Ngày</span><b>${d}/182</b></div>
+    <div><span class="stat-k">Giờ</span><b>${h.toFixed(1)}/${hoursTotal().toFixed(0)}</b></div>
+    <div><span class="stat-k">Còn lại</span><b>${182-d} ngày</b></div>`;
+  /* chấm theo tháng */
+  document.getElementById('dots').innerHTML = MONTHS.map(m => {
+    const ws = WEEKS.filter(w => w.m === m.n);
+    let tot = 0, c = 0;
+    ws.forEach(w => { const wi = WEEKS.indexOf(w);
+      buildWeek(w).forEach((_, di) => { tot++; if (done[dayNo(wi, di)]) c++; }); });
+    const p = Math.round(c / tot * 100);
+    return `<div class="mdot"><span>${m.name}</span>
+      <div class="bar g" style="--pct:${p}%"><i></i></div><em>${c}/${tot}</em></div>`;
+  }).join('');
+  renderToday();
+}
+
+list.addEventListener('change', e => {
+  const b = e.target.closest('input[data-n]'); if (!b) return;
+  setDay(b.dataset.n, b.checked);
+  paint();
+});
+
+/* ---------------- Hôm nay học gì ---------------- */
+function renderToday(){
+  const box = document.getElementById('today');
+
+  if (isFinished()){
+    box.innerHTML = `<div class="today-l"><span class="stat-k">Hoàn thành</span>
+        <div class="today-d">182/182</div><span class="pill green">Xong khoá</span></div>
+      <div class="today-r"><div class="today-w">Bạn đã học đủ 182 ngày · ${hoursTotal().toFixed(0)} giờ</div>
+        <div class="today-f">Chúc mừng. Giờ làm bài thi thử tuần 26 và lập kế hoạch 6 tháng tiếp theo.</div></div>`;
+    return;
+  }
+
+  const n = currentDayNo();
+  const { w, d } = locate(n);
+  const week = WEEKS[w];
+  const day = buildWeek(week)[d];
+  const isDone = !!doneDays()[n];
+  const behind = daysBehind();
+
+  box.innerHTML = `
+    <div class="today-l">
+      <span class="stat-k">Học tiếp</span>
+      <div class="today-d">Ngày ${n}</div>
+      <span class="pill ${isDone?'green':'red'}">${isDone?'Đã xong':'Chưa học'}</span>
+      ${behind ? `<span class="pill amber">Chậm ${behind} ngày so với lịch</span>` : ''}
+    </div>
+    <div class="today-r">
+      <div class="today-w">Tuần ${week.n} · ${week.theme}</div>
+      <div class="today-f">${day.focus}</div>
+      <ul class="tasks">${day.tasks.map(t=>`<li><span>${t[0]}</span><em>${t[1]}′</em></li>`).join('')}</ul>
+      <div class="today-a">
+        <b>${day.min} phút</b>
+        <button class="btn sm" id="goDay" type="button">${isDone?'Bỏ đánh dấu':'Đánh dấu đã học xong'}</button>
+        <a class="btn ghost sm" href="bai-hoc.html">Mở bài học →</a>
+      </div>
+      ${behind >= 7 ? `<p style="margin-top:12px;font-size:13.5px;color:var(--ink-3)">
+        Chậm lịch không phải lý do để bỏ. Đừng học bù dồn — cứ tiếp tục ngày ${n},
+        khoá sẽ kết thúc muộn hơn ${behind} ngày và chỉ có thế.</p>` : ''}
+    </div>`;
+
+  document.getElementById('goDay').onclick = () => { setDay(n, !isDone); paint(); };
+}
+
+/* ---------------- Ngày bắt đầu ---------------- */
+const sd = document.getElementById('sd');
+sd.value = startDate();
+sd.addEventListener('change', () => {
+  if (!sd.value) return;
+  Store.set(K.start, sd.value);
+  paint();
+});
+
+document.getElementById('resetAll').addEventListener('click', () => {
+  if (!confirm('Xoá toàn bộ tiến độ 182 ngày?')) return;
+  Store.del(K.days); paint();
+});
+
+/* ---------------- Khởi động ---------------- */
+paint();
+/* mở sẵn tuần đang học */
+(function openCurrent(){
+  const wi = locate(currentDayNo()).w;
+  const el = document.querySelector(`.week[data-w="${wi}"]`);
+  if (el){ el.classList.add('open'); el.querySelector('.week-head').setAttribute('aria-expanded','true'); }
+})();
+</script>
+</body>
+</html>

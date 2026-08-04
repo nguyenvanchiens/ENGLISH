@@ -1,0 +1,7 @@
+# Không đưa lên repo
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

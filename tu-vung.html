@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Từ vựng · Toàn bộ 433 mục</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<nav class="nav"><div class="nav-in">
+  <a class="brand" href="index.html"><i>EN</i> A2 → B2</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Tổng quan</a></li>
+    <li><a href="lo-trinh.html">Lộ trình</a></li>
+    <li><a href="khai-niem.html">Khái niệm</a></li>
+    <li><a href="bai-hoc.html">Bài học</a></li>
+    <li><a href="tu-vung.html">Từ vựng</a></li>
+    <li><a href="on-tap.html">Ôn tập</a></li>
+  </ul>
+  <button class="theme-btn" type="button"></button>
+</div></nav>
+
+<header class="hero" style="padding-bottom:28px"><div class="wrap">
+  <p class="eyebrow">80 động từ bất quy tắc · 60 phrasal verb · 100 collocation · 180 từ lõi · 13 lỗi phát âm</p>
+  <h1>Từ vựng</h1>
+  <p class="lede">Tất cả những bộ <b>đóng và đếm được</b> của lộ trình đều nằm ở đây — tra được, tích được.
+    1.200 từ chung thì nằm trong Anki, không nằm trên trang web: không ai ôn 1.200 từ bằng cách cuộn chuột.
+    Trang này cho bạn <b>bản đồ</b> — tuần nào học gì, lấy từ nguồn nào, và 10 từ lõi để bắt đầu.</p>
+  <p class="lede" style="margin-top:14px;font-size:15px">Còn <b>danh từ, động từ, tính từ, trạng từ là gì</b>
+    thì nằm ở trang <a href="khai-niem.html#pos">Khái niệm</a> — vì đó là khái niệm, không phải danh sách từ.</p>
+
+  <div class="grid g4" style="margin-top:24px">
+    <div class="stat"><div class="stat-k">Mục tra được ở đây</div><div class="stat-v blue">433</div><div class="stat-n">đã tích <b id="kDone">0</b></div></div>
+    <div class="stat"><div class="stat-k">Từ trong Anki cả khoá</div><div class="stat-v">1.200</div><div class="stat-n">10 từ × 120 ngày học mới</div></div>
+    <div class="stat"><div class="stat-k">Vốn từ sau 6 tháng</div><div class="stat-v">~2.100</div><div class="stat-n">nhớ thật, không phải trên giấy</div></div>
+    <div class="stat"><div class="stat-k">Hàng đợi Anki mỗi ngày</div><div class="stat-v green">~70<span style="font-size:16px;color:var(--ink-3)">thẻ</span></div><div class="stat-n">15 phút · 13 giây/thẻ</div></div>
+  </div>
+</div></header>
+
+<!-- THANH TÌM KIẾM DÍNH -->
+<div class="vbar"><div class="wrap vbar-in">
+  <input type="search" id="q" placeholder="Tìm từ, nghĩa tiếng Việt, hoặc chủ đề — không cần dấu…" autocomplete="off">
+  <div class="vjump">
+    <a href="khai-niem.html#pos">Từ loại ↗</a>
+    <a href="#map">Bản đồ 26 tuần</a>
+    <a href="#irregular">Bất quy tắc</a>
+    <a href="#phrasal">Phrasal</a>
+    <a href="#colloc">Collocation</a>
+    <a href="#pron">Phát âm</a>
+    <a href="#anki">Thẻ Anki</a>
+  </div>
+  <span class="vcount" id="qcount"></span>
+</div></div>
+
+<main>
+
+<!-- ===== 01 BẢN ĐỒ 26 TUẦN ===== -->
+<section class="block" id="map"><div class="wrap">
+  <div class="block-head">
+    <h2><span class="tag">01</span> Bản đồ 26 tuần</h2>
+    <p class="sub">Mỗi tuần 50 từ. Dưới đây là <b>10 từ lõi</b> của mỗi chủ đề — 40 từ còn lại bạn lọc từ Oxford 3000 dải B1 + B2 theo đúng chủ đề đó.</p>
+  </div>
+  <div id="themes"></div>
+
+  <div class="card" style="margin-top:20px;border-left:3px solid var(--blue)">
+    <h4>Tám tuần không có từ lõi riêng</h4>
+    <p class="sub" style="margin-top:8px;margin-bottom:14px">Vì các tuần này dùng một bộ đóng đã có sẵn bên dưới, hoặc là tuần ôn.</p>
+    <div id="closed" class="vclosed"></div>
+  </div>
+
+  <div class="card" style="margin-top:16px;border-left:3px solid var(--amber)">
+    <h4>Hai tuần cần chia nhỏ ra học</h4>
+    <p class="sub" style="margin-top:8px"><b>Tuần 7</b> (tính từ miêu tả) và <b>tuần 14</b> (động từ tường thuật) là nhóm từ <b>nghĩa gần nhau</b> — kiểu này gây nhiễu và học chậm hơn nhóm theo tình huống. Hai tuần đó: học <b>5 từ buổi sáng, 5 từ buổi tối</b>, và mỗi thẻ ghi kèm <b>một từ dễ lẫn với nó</b>. Các tuần khác nhóm theo tình huống nên không cần làm vậy.</p>
+  </div>
+</div></section>
+
+<!-- ===== 02 ĐỘNG TỪ BẤT QUY TẮC ===== -->
+<section class="block" id="irregular"><div class="wrap">
+  <div class="block-head">
+    <h2><span class="tag">02</span> 80 động từ bất quy tắc</h2>
+    <p class="sub">Tuần 4 học cột V2, tuần 5 học cột V3. Chia 4 nhóm theo dạng biến đổi — học theo nhóm nhanh hơn học theo bảng chữ cái rất nhiều.</p>
+  </div>
+  <div class="vprog"><div class="bar g" id="bIrr" style="--pct:0%"><i></i></div><em id="nIrr">0/80</em></div>
+  <div id="irr"></div>
+</div></section>
+
+<!-- ===== 03 PHRASAL VERBS ===== -->
+<section class="block" id="phrasal"><div class="wrap">
+  <div class="block-head">
+    <h2><span class="tag">03</span> 60 phrasal verbs</h2>
+    <p class="sub"><span class="pill green">tách</span> = tách được, tân ngữ chen vào giữa: <em>hand the file over</em>.
+      <span class="pill">liền</span> = không tách, luôn đi liền: <em>look into the bug</em>, không phải <s>look the bug into</s>.</p>
+  </div>
+  <div class="vprog"><div class="bar g" id="bPhv" style="--pct:0%"><i></i></div><em id="nPhv">0/60</em></div>
+  <div id="phv"></div>
+</div></section>
+
+<!-- ===== 04 COLLOCATION ===== -->
+<section class="block" id="colloc"><div class="wrap">
+  <div class="block-head">
+    <h2><span class="tag">04</span> 100 collocation</h2>
+    <p class="sub">Đây là bước biến từ thụ động thành từ chủ động. Bạn biết <em>deadline</em> rồi — nhưng biết <em>meet a deadline</em> mới nói được câu tự nhiên. Người Việt hay dịch thành <s>catch a deadline</s>.</p>
+  </div>
+  <div class="vprog"><div class="bar g" id="bCol" style="--pct:0%"><i></i></div><em id="nCol">0/100</em></div>
+  <div id="col"></div>
+</div></section>
+
+<!-- ===== 05 PHÁT ÂM ===== -->
+<section class="block" id="pron"><div class="wrap">
+  <div class="block-head">
+    <h2><span class="tag">05</span> 13 lỗi phát âm của người Việt</h2>
+    <p class="sub">Mỗi Chủ nhật 5 phút, 1 lỗi. Chạy 2 vòng: tuần 1–13 rồi lặp lại tuần 14–25.
+      Đây là phần <b>phục vụ cho nghe</b>, không phải để nói cho hay — bạn không nhận ra âm mà mình không phát âm được.</p>
+  </div>
+  <div id="prn"></div>
+</div></section>
+
+<!-- ===== 06 NGUỒN & THẺ ANKI ===== -->
+<section class="block" id="anki"><div class="wrap">
+  <div class="block-head">
+    <h2><span class="tag">06</span> Lấy từ ở đâu, dựng thẻ thế nào</h2>
+    <p class="sub">Bốn nguồn, mỗi nguồn một việc. Đừng trộn thêm nguồn thứ năm.</p>
+  </div>
+  <div id="src" class="grid g2"></div>
+
+  <div class="card" style="margin-top:24px">
+    <h4>Thẻ Anki trông thế nào</h4>
+    <p class="sub" style="margin-top:8px;margin-bottom:16px">Việc này quan trọng hơn việc chọn bộ nào. Thẻ tệ thì Anki cũng không cứu được.</p>
+    <div id="demo" class="vcard"></div>
+    <ul class="mini" id="rules" style="margin-top:18px"></ul>
+  </div>
+
+  <div class="card" style="margin-top:16px;border-left:3px solid var(--red)">
+    <h4>Ba thứ không dùng</h4>
+    <ul class="mini" style="margin-top:12px">
+      <li><b>Danh sách "3000 từ IELTS"</b> — trộn lẫn C1–C2. Bạn sẽ học từ mà hai năm nữa mới gặp lại lần đầu.</li>
+      <li><b>Deck tiếng Việt trôi nổi trên AnkiWeb</b> — phần lớn không audio, không câu ví dụ, dịch một nghĩa duy nhất.</li>
+      <li><b>Danh sách từ vựng tech</b> — bạn nạp miễn phí qua slot <em>Đọc 1 trang documentation</em> 10–15 phút mỗi ngày. Đừng tiêu ngân sách Anki vào đây.</li>
+    </ul>
+  </div>
+</div></section>
+
+</main>
+
+<footer class="foot"><div class="wrap"><p>Tiến độ tích lưu trên máy bạn · 433 mục tra được · 1.200 từ chung nằm trong Anki</p></div></footer>
+
+<script src="data.js"></script>
+<script src="vocab.js"></script>
+<script src="app.js"></script>
+<script>
+/* ================= tiện ích ================= */
+const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+/* chuỗi để tìm kiếm: gộp mọi ô của một dòng, bỏ dấu */
+const S = (...parts) => noAccent(parts.filter(Boolean).join(' '));
+
+/* Một mục từ vựng — LUÔN theo thứ tự:
+     dòng 1  tiếng Anh + IPA
+     dòng 2  nghĩa tiếng Việt  (+ nhãn nếu có)
+     dòng 3  câu minh họa
+   `head` cho phép thay dòng 1 (ví dụ 3 dạng của động từ bất quy tắc). */
+function item({id, en, ipa, vi, ex, tag, head, search}){
+  return `<div class="vrow" data-s="${esc(search)}">
+    <label class="check"><input type="checkbox" data-v="${esc(id)}"><span></span></label>
+    <div class="vmain">
+      <div class="vtop">${head || `<b class="ven">${esc(en)}</b>`}${
+        ipa ? `<em class="vipa">/${esc(ipa)}/</em>` : ''}</div>
+      <div class="vvi">${esc(vi)}${tag || ''}</div>
+      ${ex ? `<p class="vex">${esc(ex)}</p>` : ''}
+    </div></div>`;
+}
+
+/* ================= 01 · bản đồ 26 tuần ================= */
+document.getElementById('themes').innerHTML = V_THEMES.map(t => `
+  <article class="vth">
+    <div class="vth-h">
+      <span class="vth-w">Tuần ${t.w}</span>
+      <h3>${esc(t.theme)}</h3>
+      ${t.warn ? '<span class="pill amber">chia 5 + 5</span>' : ''}
+      <span class="pill">${esc(t.src)}</span>
+      <span class="vth-n">10 từ lõi · 50 từ/tuần</span>
+    </div>
+    <div class="vth-b">${t.items.map(([en, ipa, vi, ex]) => item({
+      id:`core:${t.w}:${en}`, en, ipa, vi, ex,
+      search:S(en, ipa, vi, ex, t.theme, 'tuan ' + t.w) })).join('')}</div>
+  </article>`).join('');
+
+document.getElementById('closed').innerHTML = V_CLOSED.map(c => `
+  <div class="vcl"><span class="vcl-w">Tuần ${esc(c.w)}</span>
+    <span>${esc(c.what)}</span>
+    ${c.goto ? `<a href="#${c.goto}">xem bên dưới →</a>` : '<em>—</em>'}</div>`).join('');
+
+/* ================= 02 · động từ bất quy tắc ================= */
+document.getElementById('irr').innerHTML = IRREGULAR.map(g => `
+  <article class="vgrp">
+    <div class="vgrp-h"><h3>${esc(g.g)}</h3>
+      <span class="vgrp-n">${g.items.length} từ</span>
+      <p>${esc(g.note)}</p></div>
+    <div class="vgrp-b">${g.items.map(([a, b, c, ipa, vi, ex]) => item({
+      id:`irr:${a}`, ipa, vi, ex,
+      head:`<b class="ven">${esc(a)}</b><i class="vsep">·</i>` +
+           `<b class="ven v2">${esc(b)}</b><i class="vsep">·</i>` +
+           `<b class="ven v3">${esc(c)}</b>`,
+      search:S(a, b, c, ipa, vi, ex) })).join('')}</div>
+  </article>`).join('');
+
+/* ================= 03 · phrasal verbs ================= */
+document.getElementById('phv').innerHTML = PHRASAL.map(g => `
+  <article class="vgrp">
+    <div class="vgrp-h"><h3>${esc(g.g)}</h3>
+      <span class="vgrp-n">${g.items.length} từ</span>
+      <p>${esc(g.note)}</p></div>
+    <div class="vgrp-b">${g.items.map(([pv, vi, sep, ex]) => item({
+      id:`phv:${pv}`, en:pv, vi, ex,
+      tag:`<span class="pill ${sep === 'sep' ? 'green' : ''}">${sep === 'sep' ? 'tách' : 'liền'}</span>`,
+      search:S(pv, vi, ex) })).join('')}</div>
+  </article>`).join('');
+
+/* ================= 04 · collocation ================= */
+document.getElementById('col').innerHTML = COLLOC.map(g => `
+  <article class="vgrp">
+    <div class="vgrp-h"><h3>${esc(g.g)}</h3>
+      <span class="vgrp-n">${g.items.length} cụm</span></div>
+    <div class="vgrp-b two">${g.items.map(([c, vi, ex]) => item({
+      id:`col:${c}`, en:c, vi, ex, search:S(c, vi, ex) })).join('')}</div>
+  </article>`).join('');
+
+/* ================= 05 · phát âm ================= */
+document.getElementById('prn').innerHTML = `<div class="vgrp"><div class="vgrp-b">` +
+  PRON.map((p, i) => item({
+    id:`prn:${i}`, vi:p,
+    head:`<span class="vprn-n">Tuần ${i + 1} · ${i + 14}</span>`,
+    search:S(p, 'phat am tuan ' + (i + 1)) })).join('') + `</div></div>`;
+
+/* ================= 06 · nguồn + thẻ demo ================= */
+document.getElementById('src').innerHTML = V_SOURCES.map(s => `
+  <div class="card"><h4>${esc(s.name)} <span class="pill">${esc(s.tag)}</span></h4>
+    <p class="sub" style="margin-top:8px">${esc(s.why)}</p>
+    <ul class="mini" style="margin-top:12px">
+      <li>${esc(s.count)}</li><li><code>${esc(s.url)}</code></li></ul></div>`).join('');
+
+document.getElementById('demo').innerHTML = `
+  <div class="vside"><span class="gap-k">Mặt trước</span>
+    <b>${esc(CARD_DEMO.front[0])}</b><em>${esc(CARD_DEMO.front[1])}</em></div>
+  <div class="vside"><span class="gap-k">Mặt sau</span>
+    <b>${esc(CARD_DEMO.back[0])}</b>
+    <p>${esc(CARD_DEMO.back[1])}</p><em>${esc(CARD_DEMO.back[2])}</em></div>`;
+
+document.getElementById('rules').innerHTML =
+  CARD_DEMO.rules.map(r => `<li>${r}</li>`).join('');
+
+/* ================= tích & tiến độ ================= */
+const boxes = [...document.querySelectorAll('input[data-v]')];
+
+function paint(){
+  const done = vocabDone();
+  let all = 0;
+  const c = { 'irr:':0, 'phv:':0, 'col:':0 };
+  boxes.forEach(b => {
+    const on = !!done[b.dataset.v];
+    b.checked = on;
+    b.closest('.vrow').classList.toggle('done', on);
+    if (!on) return;
+    all++;
+    for (const k in c) if (b.dataset.v.startsWith(k)) c[k]++;
+  });
+
+  const set = (bar, num, n, tot) => {
+    document.getElementById(bar).style.setProperty('--pct', Math.round(n / tot * 100) + '%');
+    document.getElementById(num).textContent = n + '/' + tot;
+  };
+  set('bIrr','nIrr', c['irr:'], 80);
+  set('bPhv','nPhv', c['phv:'], 60);
+  set('bCol','nCol', c['col:'], 100);
+  document.getElementById('kDone').textContent = all;
+}
+
+document.addEventListener('change', e => {
+  const b = e.target.closest('input[data-v]');
+  if (!b) return;
+  setVocab(b.dataset.v, b.checked);
+  paint();
+});
+
+/* ================= tìm kiếm ================= */
+const q = document.getElementById('q');
+const qcount = document.getElementById('qcount');
+const rows = [...document.querySelectorAll('.vrow')];
+
+function filter(){
+  const s = noAccent(q.value.trim());
+  if (!s){
+    rows.forEach(r => r.hidden = false);
+    document.querySelectorAll('.vgrp, .vth, .block').forEach(x => x.hidden = false);
+    qcount.textContent = '';
+    return;
+  }
+  let hit = 0;
+  rows.forEach(r => {
+    const on = r.dataset.s.includes(s);
+    r.hidden = !on;
+    if (on) hit++;
+  });
+  /* ẩn nhóm và mục rỗng để không còn tiêu đề trơ trọi */
+  document.querySelectorAll('.vgrp, .vth').forEach(g => {
+    g.hidden = ![...g.querySelectorAll('.vrow')].some(r => !r.hidden);
+  });
+  document.querySelectorAll('main .block').forEach(b => {
+    const has = b.querySelectorAll('.vrow').length;
+    b.hidden = has > 0 && ![...b.querySelectorAll('.vrow')].some(r => !r.hidden);
+  });
+  qcount.textContent = hit ? hit + ' mục' : 'không có mục nào khớp';
+}
+q.addEventListener('input', filter);
+
+paint();
+</script>
+</body>
+</html>
