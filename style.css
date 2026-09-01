@@ -151,9 +151,12 @@ h4{font-family:var(--disp);font-size:16px;font-weight:700}
   border-radius:8px;padding:22px;box-shadow:var(--shadow);
 }
 .grid{display:grid;gap:12px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.g3{grid-template-columns:repeat(auto-fit,minmax(215px,1fr))}
-.g4{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+/* min(…, 100%) là chỗ quan trọng: minmax(280px, 1fr) trần trụi thì mức
+   tối thiểu 280px KHÔNG co được, nên trên màn hẹp hơn 280px cái thẻ rộng
+   hơn cả khung chứa và chìa ra ngoài. Bọc min() lại thì nó co theo khung. */
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(280px,100%),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(215px,100%),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(160px,100%),1fr))}
 
 .stat{background:var(--surface);border:1px solid var(--line);
   border-radius:8px;padding:18px 20px;box-shadow:var(--shadow)}
@@ -922,11 +925,19 @@ pre.code{
 /* Máy rất hẹp — 320px vẫn phải đọc được, không được kéo ngang */
 @media (max-width:360px){
   .wrap{padding:0 13px}
+  /* Cho tiêu đề xuống dòng ở màn hẹp. Phải đặt flex-basis 100% cho CẢ KHỐI
+     tiêu đề, không chỉ cho thẻ h3 — nếu không thì khối bị nhãn bên cạnh
+     bóp lại còn 31px và chữ 'Tuần 5 · Ngày 29–33' chìa ra ngoài. */
   .kn-h,.vth-h,.bgrp-h,.vgrp-h{flex-wrap:wrap}
-  .kn-ht h3,.vth-h h3{width:100%}
+  .kn-ht,.vth-h h3,.bgrp-h h3{flex:1 1 100%;min-width:0}
+  .kn-ht h3{width:100%}
   .vipa{display:block;width:100%}
   .stat-v{font-size:25px}
   h1{font-size:29px}
-  .tbl{font-size:13px}
-  .tbl th,.tbl td{padding:8px 9px}
+  /* Ở 320px bảng chỉ dư 2px — quá mỏng, chữ hiển thị lệch một chút là tràn.
+     Nới ô và cho phép ngắt trong từ để lấy thêm khoảng an toàn. */
+  .tbl{font-size:12.5px}
+  .tbl th,.tbl td{padding:7px 6px 7px 0;word-break:break-word}
+  .tbl th:first-child,.tbl td:first-child{padding-left:0}
+  .kn-b,.bt,.vgrp-h,.bgrp-h{padding-left:14px;padding-right:14px}
 }

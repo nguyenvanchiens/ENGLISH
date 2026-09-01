@@ -5,3 +5,8 @@ Thumbs.db
 *.log
 .vscode/
 .idea/
+
+# Playwright ghi ảnh và log vào đây khi kiểm thử
+.playwright-mcp/
+live-*.png
+test-results/
