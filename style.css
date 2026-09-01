@@ -517,9 +517,10 @@ pre.code{
 
 /* ================= MOBILE ================= */
 @media (max-width:820px){
-  .nav-in{height:auto;padding:10px 16px;flex-wrap:wrap;gap:10px}
-  .nav-links{margin-left:0;order:3;flex:1 1 100%;overflow-x:auto;
-    padding-bottom:2px;-webkit-overflow-scrolling:touch}
+  /* Màn hẹp: ẩn hẳn dãy link, dùng ngăn kéo trượt từ bên trái.
+     Nhờ vậy thanh menu về lại đúng một hàng 60px thay vì hai hàng. */
+  .nav-in{height:60px;padding:0 16px;flex-wrap:nowrap;gap:12px}
+  .nav-links{display:none}
   .theme-btn{margin-left:auto}
   .wrap{padding:0 16px}
   .hero{padding:40px 0 32px}
@@ -940,4 +941,53 @@ pre.code{
   .tbl th,.tbl td{padding:7px 6px 7px 0;word-break:break-word}
   .tbl th:first-child,.tbl td:first-child{padding-left:0}
   .kn-b,.bt,.vgrp-h,.bgrp-h{padding-left:14px;padding-right:14px}
+}
+
+/* =========================================================
+   ============ NGĂN KÉO MENU (màn hình hẹp) ===============
+   Trên màn rộng thì cả ba thứ này đều tắt — dãy link ngang
+   đủ chỗ nên không cần ngăn kéo.
+   ========================================================= */
+.burger,.drawer,.scrim{display:none}
+
+@media (max-width:820px){
+  /* --- nút ba gạch, tự biến thành dấu X khi mở --- */
+  .burger{display:grid;place-content:center;gap:5px;
+    width:40px;height:40px;flex:0 0 auto;cursor:pointer;
+    background:none;border:1px solid var(--line);border-radius:8px}
+  .burger:hover{border-color:var(--ink-3)}
+  .burger i{display:block;width:18px;height:2px;border-radius:2px;
+    background:var(--ink-2);transition:transform .22s,opacity .16s}
+  .drawer-open .burger i:nth-child(1){transform:translateY(7px) rotate(45deg)}
+  .drawer-open .burger i:nth-child(2){opacity:0}
+  .drawer-open .burger i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+  /* --- nền mờ: bắt đầu từ DƯỚI thanh menu (60px), để thanh menu
+         không bị mờ và nút ba gạch vẫn bấm được --- */
+  .scrim{display:block;position:fixed;inset:60px 0 0 0;z-index:60;
+    background:rgba(10,16,26,.5);opacity:0;visibility:hidden;
+    transition:opacity .22s,visibility .22s}
+  .drawer-open .scrim{opacity:1;visibility:visible}
+
+  /* --- ngăn kéo: cũng trượt ra dưới thanh menu --- */
+  .drawer{display:flex;flex-direction:column;position:fixed;z-index:61;
+    top:60px;left:0;bottom:0;width:min(76vw,290px);
+    background:var(--surface);border-right:1px solid var(--line);
+    box-shadow:6px 0 26px rgba(10,16,26,.16);
+    transform:translateX(-100%);visibility:hidden;
+    transition:transform .24s cubic-bezier(.4,0,.2,1),visibility .24s}
+  .drawer-open .drawer{transform:none;visibility:visible}
+  /* thanh menu phải nằm TRÊN cả hai, kẻo nút ba gạch bị che */
+  .drawer-open .nav{z-index:62}
+
+  .drawer ul{list-style:none;padding:10px 0;overflow-y:auto}
+  .drawer a{display:block;padding:14px 18px;font-size:15.5px;font-weight:500;
+    color:var(--ink-2);text-decoration:none;border-left:3px solid transparent}
+  .drawer a:hover{background:var(--surface-2);color:var(--ink)}
+  /* trang đang mở: chữ đậm hơn và có vạch đỏ bên trái */
+  .drawer a.here{color:var(--ink);font-weight:600;
+    background:var(--surface-2);border-left-color:var(--red)}
+
+  /* khoá cuộn trang khi ngăn kéo đang mở */
+  .drawer-open{overflow:hidden}
 }

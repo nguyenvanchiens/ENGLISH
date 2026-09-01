@@ -65,9 +65,62 @@ function paintThemeBtn(){
 /* ---------- Đánh dấu menu đang ở trang nào ---------- */
 (function markNav(){
   const file = location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.nav-links a').forEach(a => {
-    if (a.getAttribute('href') === file) a.classList.add('here');
-  });
+  const links = [...document.querySelectorAll('.nav-links a')];
+  links.forEach(a => { if (a.getAttribute('href') === file) a.classList.add('here'); });
+
+  /* ---------- Ngăn kéo menu cho màn hình hẹp ----------
+     Thanh menu cuộn ngang là kiểu dở: 6 mục mà chỉ thấy 3–4, mấy mục
+     còn lại ẩn mất nên người dùng không biết là có. Ngăn kéo cho thấy
+     hết cả 6 mục cùng lúc.
+     Ngăn kéo được DỰNG LẠI TỪ chính các link đã có trên trang, nên
+     không phải viết trùng HTML ở 6 file, và không bao giờ lệch nhau. */
+  const bar = document.querySelector('.nav-in');
+  if (!bar || !links.length) return;
+
+  const burger = document.createElement('button');
+  burger.type = 'button';
+  burger.className = 'burger';
+  burger.setAttribute('aria-label', 'Mở menu');
+  burger.setAttribute('aria-expanded', 'false');
+  burger.setAttribute('aria-controls', 'drawer');
+  burger.innerHTML = '<i></i><i></i><i></i>';
+  bar.appendChild(burger);
+
+  const scrim = document.createElement('div');
+  scrim.className = 'scrim';
+  document.body.appendChild(scrim);
+
+  const esc = t => String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const drawer = document.createElement('nav');
+  drawer.id = 'drawer';
+  drawer.className = 'drawer';
+  drawer.setAttribute('aria-label', 'Menu');
+  drawer.innerHTML =
+    '<ul>' + links.map(a => {
+      const here = a.classList.contains('here');
+      return '<li><a href="' + esc(a.getAttribute('href')) + '"' +
+             (here ? ' class="here" aria-current="page"' : '') + '>' +
+             esc(a.textContent.trim()) + '</a></li>';
+    }).join('') + '</ul>';
+  document.body.appendChild(drawer);
+
+  let open = false;
+  function setOpen(on){
+    open = on;
+    /* Đặt class lên <html> để khoá cuộn trang được luôn */
+    document.documentElement.classList.toggle('drawer-open', on);
+    burger.setAttribute('aria-expanded', String(on));
+    burger.setAttribute('aria-label', on ? 'Đóng menu' : 'Mở menu');
+    if (on) { const a = drawer.querySelector('a'); if (a) a.focus(); }
+    else if (burger.offsetParent) burger.focus();   // chỉ trả con trỏ nếu nút còn hiện
+  }
+
+  burger.addEventListener('click', () => setOpen(!open));
+  scrim.addEventListener('click', () => setOpen(false));
+  drawer.addEventListener('click', e => { if (e.target.closest('a')) setOpen(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) setOpen(false); });
+  /* Kéo cửa sổ rộng ra thì đóng, kẻo ngăn kéo dính lại trên màn rộng */
+  addEventListener('resize', () => { if (open && innerWidth > 820) setOpen(false); });
 })();
 
 /* ---------- Ngày bắt đầu khoá học ---------- */
