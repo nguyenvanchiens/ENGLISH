@@ -541,8 +541,25 @@ pre.code{
   .day-main{grid-column:2}
   .day-min{grid-column:2;text-align:left;font-size:15px}
   .day-min em{display:inline;margin-left:4px}
-  .week-head{flex-wrap:wrap;gap:9px}
-  .week-t{flex:1 1 100%;order:5}
+  /* Nút mở tuần trên màn hẹp.
+     Trước đây chỉ đặt flex-wrap + order:5 cho tên tuần, kết quả là
+     tên tuần ("Giới từ", "Thì hiện tại") bị đẩy xuống DÒNG CUỐI,
+     sau cả mấy con số — đọc ngược hẳn. Giờ dùng lưới để xếp có chủ ý:
+
+       dòng 1   TUẦN 2   Ngày 8–14 ............  0/7  ⌄
+       dòng 2   Giới từ
+       dòng 3   CÓ BÀI KIỂM TRA   (chỉ tuần có test)                */
+  .week-head{
+    display:grid;grid-template-columns:auto 1fr auto auto;
+    row-gap:7px;column-gap:10px;align-items:center;padding:13px 15px;
+  }
+  .week-n{grid-column:1;grid-row:1;flex:none}
+  .week-days{grid-column:2;grid-row:1;justify-self:start}
+  .week-cnt{grid-column:3;grid-row:1}
+  .week-head .chev{grid-column:4;grid-row:1;margin-top:-4px}
+  /* tên tuần chiếm cả dòng và to hơn, vì đây là thông tin chính */
+  .week-t{grid-column:1/-1;grid-row:2;font-size:16px;font-weight:600;flex:none}
+  .week-head .pill{grid-column:1/-1;grid-row:3;justify-self:start}
   .lessons{grid-template-columns:1fr;gap:28px;padding-top:28px}
   .lessons-nav{position:static}
   .quiz-list li{padding-left:22px}
