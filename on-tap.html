@@ -244,7 +244,20 @@ function paintErrs(){
   /* nhóm theo chủ điểm, đếm số lần */
   const byTag = {};
   e.forEach(x => { (byTag[x.tag] = byTag[x.tag] || []).push(x); });
-  list.innerHTML = Object.entries(byTag).sort((a,b)=>b[1].length-a[1].length)
+  const xếp = Object.entries(byTag).sort((a,b)=>b[1].length-a[1].length);
+
+  /* Chủ điểm lặp nhiều nhất = bài phải ôn tuần tới.
+     Đây là chỗ sổ lỗi tự viết chương trình học cho bạn: bạn không
+     đọc một khái niệm nào trước khi đã tự vấp phải nó trong câu thật. */
+  const [top, sốLần] = [xếp[0][0], xếp[0][1].length];
+  const đủ = sốLần >= 3;
+  list.innerHTML = `<div class="nextup ${đủ ? 'on' : ''}">
+      <span class="gap-k">Chủ điểm cho tuần tới</span>
+      <b>${top}</b>
+      <em>${đủ
+        ? 'sai ' + sốLần + ' lần rồi — đây là thứ đáng ôn nhất, không phải bài tiếp theo trong sách'
+        : 'mới sai ' + sốLần + ' lần. Ghi thêm vài lỗi nữa thì con số này mới đáng tin.'}</em>
+    </div>` + xếp
     .map(([tag, items]) => `
       <div class="errgrp">
         <div class="errgrp-h">${tag}

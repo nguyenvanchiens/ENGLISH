@@ -339,7 +339,7 @@ function buildWeek(w){
         ['Học lý thuyết: '+topic,10],
         ['Làm bài tập trong English Grammar in Use',10],
         ['Từ vựng mới — 10 từ chủ đề '+w.vocab,10],
-        ['NÓI to 5 câu dùng điểm ngữ pháp vừa học, rồi viết lại',10],
+        ['Việc thật hôm nay bằng tiếng Anh — standup / mô tả PR / 1 tin Slack. NÓI to trước, rồi viết. Ép dùng: '+w.theme.toLowerCase(),10],
         ['Nghe — '+listen,20],
         ['Đọc 1 trang documentation hoặc graded reader',15] ]
       : [
@@ -347,7 +347,7 @@ function buildWeek(w){
         ['Học lý thuyết: '+topic,15],
         ['Làm bài tập trong English Grammar in Use',15],
         ['Từ vựng mới — 10 từ chủ đề '+w.vocab,10],
-        ['NÓI to 5 câu dùng điểm ngữ pháp vừa học, rồi viết lại',10],
+        ['Việc thật hôm nay bằng tiếng Anh — standup / mô tả PR / 1 tin Slack. NÓI to trước, rồi viết. Ép dùng: '+w.theme.toLowerCase(),10],
         ['Nghe — '+listen,15],
         ['Đọc 1 trang documentation hoặc graded reader',10] ] };
   });
@@ -357,12 +357,14 @@ function buildWeek(w){
      không cần đợi tới tháng 7–12 mới tìm người luyện nói. */
   days.push({ d:6, min:60, focus:'Ôn tập tuần '+w.n, review:true,
     tasks:[
-      ['Làm lại toàn bộ câu sai trong tuần',10],
-      ['Ôn toàn bộ từ vựng của tuần trên Anki',10],
-      ['Viết 1 đoạn 80 từ dùng ngữ pháp tuần này',10],
+      ['Làm lại toàn bộ câu sai trong tuần',8],
+      ['Ôn toàn bộ từ vựng của tuần trên Anki',7],
       ['Tự kiểm tra 5 phút: '+w.review,5],
+      /* SÂN TẬP — chỗ mọi thứ của tuần đáp xuống. Xem trang Lộ trình
+         để biết tuần này làm ra sản phẩm gì và phải gom những gì. */
+      ['SÂN TẬP — làm sản phẩm thật của tuần '+w.n,20],
       ['NÓI 15 phút với AI voice về chủ đề tuần — ghi âm, nghe lại 1 lần',15],
-      ['Gửi đoạn văn cho AI chấm — ghi mọi lỗi vào sổ lỗi',10] ] });
+      ['Gửi sản phẩm cho AI chấm — chép 3 lỗi nặng nhất vào sổ lỗi',5] ] });
 
   /* CN — ngày nhẹ, nhưng vẫn có phát âm và nghe */
   days.push({ d:7, min:30, focus:'Ngày nhẹ — giữ nhịp', light:true,

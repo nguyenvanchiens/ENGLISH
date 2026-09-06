@@ -31,6 +31,9 @@
     Mỗi ngày đều có <b>nghe</b> và <b>nói to 5 câu</b>; thứ Bảy có <b>15 phút nói với AI voice + chấm bài</b>;
     Chủ nhật có <b>phát âm</b>. Năm bài kiểm tra tháng đo cả nghe và nói, không chỉ ngữ pháp.
     Tích ô khi học xong. Bỏ một ngày thì không sao — “Hôm nay” đi theo tiến độ của bạn, không theo lịch.</p>
+  <p class="lede" style="margin-top:14px;font-size:15px">Mỗi tuần kết thúc bằng một <b>sản phẩm thật</b> —
+    bug report, mô tả PR, README — và nó bắt buộc gom cả ngữ pháp lẫn từ vựng của tuần vào một chỗ.
+    Mở một tuần ra là thấy tuần đó bạn làm ra cái gì.</p>
 
   <!-- HÔM NAY -->
   <div class="todaybox" id="today"></div>
@@ -68,6 +71,7 @@
 <footer class="foot"><div class="wrap"><p>Tiến độ lưu trên máy bạn · Bấm tên tuần để mở 7 ngày bên trong</p></div></footer>
 
 <script src="data.js"></script>
+<script src="san-tap.js"></script>
 <script src="app.js"></script>
 <script>
 /* ---------------- Dựng danh sách 26 tuần ---------------- */
@@ -84,6 +88,28 @@ function dayBadge(day){
   if (day.review) return '<span class="pill amber">Ôn tập</span>';
   if (day.light)  return '<span class="pill green">Nhẹ</span>';
   return '';
+}
+
+/* ---------- Sân tập: sản phẩm thật của tuần ----------
+   Đây là chỗ ngữ pháp + từ vựng + sổ lỗi của tuần gặp nhau.
+   Bài tập điền chỗ trống kiểm tra bạn NHẬN RA luật; cái này
+   kiểm tra bạn DÙNG được nó. */
+function arenaBox(n){
+  const a = (typeof ARENA !== 'undefined') && ARENA.find(x => x.w === n);
+  if (!a) return '';
+  return `<div class="arena">
+    <div class="arena-h">
+      <span class="arena-k">Sân tập · cuối tuần này bạn làm ra</span>
+      <h4>${a.t}</h4>
+      <span class="pill">${a.size}</span>
+    </div>
+    <p class="arena-why">${a.force}</p>
+    <div class="arena-must">
+      <span class="gap-k">Bắt buộc gom đủ</span>
+      <ul>${a.must.map(m => `<li>${m}</li>`).join('')}</ul>
+    </div>
+    <p class="arena-ship"><b>Gửi đi đâu:</b> ${a.ship}</p>
+  </div>`;
 }
 
 let html = '';
@@ -114,7 +140,7 @@ MONTHS.forEach(mo => {
         <span class="week-cnt" data-cnt="${wi}">0/${days.length}</span>
         <span class="chev"></span>
       </button>
-      <div class="week-body">`;
+      <div class="week-body">` + arenaBox(w.n);
 
     days.forEach((day, di) => {
       const n = dayNo(wi, di);
@@ -233,6 +259,11 @@ function renderToday(){
       <div class="today-w">Tuần ${week.n} · ${week.theme}</div>
       <div class="today-f">${day.focus}</div>
       <ul class="tasks">${day.tasks.map(t=>`<li><span>${t[0]}</span><em>${t[1]}′</em></li>`).join('')}</ul>
+      ${(() => {
+        const a = (typeof ARENA !== 'undefined') && ARENA.find(x => x.w === week.n);
+        return a ? `<p class="today-arena"><b>Cuối tuần này bạn làm ra:</b> ${a.t}
+          <em>— ${a.size}, ${a.ship.toLowerCase()}</em></p>` : '';
+      })()}
       <div class="today-a">
         <b>${day.min} phút</b>
         <button class="btn sm" id="goDay" type="button">${isDone?'Bỏ đánh dấu':'Đánh dấu đã học xong'}</button>
